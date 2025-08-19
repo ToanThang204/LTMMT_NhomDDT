@@ -1,0 +1,16 @@
+﻿@* Views/MonThi/Edit.cshtml *@
+@model DoAnMangMayTinh.Models.MonThi
+@{
+    ViewData["Title"] = "Sửa môn thi";
+}
+<h2>@ViewData["Title"]</h2>
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="ID_Mon" />
+    <div class="form-group">
+        <label asp-for="TenMon" class="control-label"></label>
+        <input asp-for="TenMon" class="form-control" />
+        <span asp-validation-for="TenMon" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Cập nhật</button>
+    <a asp-action="Index" class="btn btn-secondary">Huỷ</a>
+</form>

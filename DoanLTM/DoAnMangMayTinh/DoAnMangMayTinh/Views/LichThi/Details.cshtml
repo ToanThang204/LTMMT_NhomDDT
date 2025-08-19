@@ -1,0 +1,48 @@
+﻿@model DoAnMangMayTinh.Models.LichThi
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>LichThi</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.KyThi)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.KyThi.TenKy)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MonThi)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MonThi.ID_Mon)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PhongThi)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PhongThi.ID_Phong)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NgayThi)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NgayThi)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.GioThi)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.GioThi)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID_Lich" class="btn btn-warning">Sửa</a>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</div>

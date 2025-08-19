@@ -1,0 +1,16 @@
+﻿@model DoAnMangMayTinh.Models.PhanCong
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Bạn có chắc chắn muốn xóa phân công này?</h3>
+<div>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="ID_PC" />
+        <button type="submit" class="btn btn-danger">Xoá</button>
+        <a asp-action="Index" class="btn btn-secondary">Huỷ</a>
+    </form>
+</div>

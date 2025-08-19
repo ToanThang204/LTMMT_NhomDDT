@@ -1,0 +1,36 @@
+﻿@model IEnumerable<dynamic>
+@{
+    var lichThi = ViewBag.LichThi as DoAnMangMayTinh.Models.LichThi;
+}
+
+<h2>Danh sách sinh viên đăng ký</h2>
+<p>
+    <b>Môn thi:</b> @lichThi.MonThi?.TenMon <br />
+    <b>Ngày thi:</b> @lichThi.NgayThi.ToString("dd/MM/yyyy") <br />
+    <b>Giờ thi:</b> @lichThi.GioThi.ToString(@"hh\:mm") <br />
+    <b>Phòng:</b> @lichThi.PhongThi?.TenPhong
+</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Mã SV</th>
+            <th>Họ tên</th>
+            <th>Ngày sinh</th>
+            <th>Lớp</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sv in Model)
+        {
+            <tr>
+                <td>@sv.ID_SV</td>
+                <td>@sv.HoTen</td>
+                <td>@sv.NgaySinh.ToString("dd/MM/yyyy")</td>
+                <td>@sv.Lop</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-secondary">Quay lại</a>

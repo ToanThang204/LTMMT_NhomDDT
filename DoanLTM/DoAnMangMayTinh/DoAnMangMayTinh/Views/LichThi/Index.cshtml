@@ -1,0 +1,570 @@
+﻿@model IEnumerable<DoAnMangMayTinh.Models.LichThi>
+<div id="lichThiNotify"></div>
+
+@{
+    ViewData["Title"] = "Danh sách lịch thi";
+}
+
+<style>
+    .schedule-page-bg {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 30px 0;
+    }
+
+    .schedule-header {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(15px);
+        border-radius: 25px;
+        padding: 35px;
+        margin-bottom: 30px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .schedule-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c);
+    }
+
+    .schedule-title {
+        color: #fff;
+        font-weight: 800;
+        font-size: 3rem;
+        margin-bottom: 15px;
+        text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        letter-spacing: 1px;
+    }
+
+    .schedule-subtitle {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.2rem;
+        margin-bottom: 0;
+        font-weight: 500;
+    }
+
+    .schedule-card {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 25px;
+        padding: 35px;
+        margin-bottom: 25px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(15px);
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .schedule-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+    }
+
+    .schedule-card:hover {
+        transform: translateY(-8px) rotateX(5deg);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    .schedule-table {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(15px);
+    }
+
+    .schedule-table thead {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    .schedule-table th {
+        border: none;
+        padding: 25px 20px;
+        font-weight: 700;
+        font-size: 1.2rem;
+        text-align: center;
+        letter-spacing: 0.5px;
+    }
+
+    .schedule-table td {
+        border: none;
+        padding: 25px 20px;
+        text-align: center;
+        vertical-align: middle;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+        font-weight: 500;
+    }
+
+    .schedule-table tbody tr {
+        transition: all 0.4s ease;
+        position: relative;
+    }
+
+    .schedule-table tbody tr:hover {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        transform: scale(1.02) translateX(5px);
+    }
+
+    .schedule-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 15px;
+        padding: 12px 30px;
+        color: white;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        text-decoration: none;
+        display: inline-block;
+        margin: 5px;
+    }
+
+    .schedule-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        color: white;
+        text-decoration: none;
+    }
+
+    .schedule-btn-add {
+        background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+        box-shadow: 0 4px 15px rgba(78, 205, 196, 0.4);
+    }
+
+    .schedule-btn-add:hover {
+        box-shadow: 0 6px 20px rgba(78, 205, 196, 0.6);
+    }
+
+    .schedule-btn-edit {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
+    }
+
+    .schedule-btn-edit:hover {
+        box-shadow: 0 6px 20px rgba(240, 147, 251, 0.6);
+    }
+
+    .schedule-btn-delete {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    }
+
+    .schedule-btn-delete:hover {
+        box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+    }
+
+    .schedule-btn-details {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .schedule-btn-details:hover {
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+
+    .schedule-btn-register {
+        background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+        box-shadow: 0 4px 15px rgba(78, 205, 196, 0.4);
+    }
+
+    .schedule-btn-register:hover {
+        box-shadow: 0 6px 20px rgba(78, 205, 196, 0.6);
+    }
+
+    .floating-animation {
+        animation: float 3s ease-in-out infinite;
+    }
+
+    .keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+
+    .pulse-animation {
+        animation: pulse 2s ease-in-out infinite;
+    }
+
+    .keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+
+    .schedule-subject {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        display: inline-block;
+    }
+
+    .schedule-date {
+        font-weight: 600;
+        color: #495057;
+        font-size: 1rem;
+    }
+
+    .schedule-time {
+        font-weight: 600;
+        color: #495057;
+        font-size: 1rem;
+    }
+
+    .schedule-room {
+        background: linear-gradient(135deg, #f093fb, #f5576c);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 15px;
+        font-weight: 600;
+        font-size: 0.8rem;
+        display: inline-block;
+    }
+
+    .schedule-status {
+        padding: 6px 12px;
+        border-radius: 15px;
+        font-weight: 600;
+        font-size: 0.8rem;
+        display: inline-block;
+    }
+
+    .schedule-status-completed {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        color: white;
+    }
+
+    .schedule-status-today {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+    }
+
+    .schedule-status-upcoming {
+        background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+        color: white;
+    }
+
+    .schedule-number {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1rem;
+        margin: 0 auto;
+    }
+</style>
+
+<div class="schedule-page-bg">
+    <div class="container">
+        <!-- Header Section -->
+        <div class="schedule-header floating-animation">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="schedule-title">
+                        <i class="fas fa-calendar-alt me-4"></i>
+                        Danh sách lịch thi
+                    </h1>
+                    <p class="schedule-subtitle">
+                        Quản lý tất cả các lịch thi trong hệ thống
+                    </p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <div class="d-flex justify-content-end">
+                        <div class="text-white me-3">
+                            <div class="fw-bold">@Model.Count()</div>
+                            <small>Lịch thi</small>
+                        </div>
+                        <div class="text-white">
+                            <div class="fw-bold">@Model.Count(s => s.NgayThi >= DateTime.Today)</div>
+                            <small>Sắp diễn ra</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Button -->
+        @if (User.IsInRole("admin") || User.IsInRole("giaovien"))
+        {
+            <div class="text-center mb-4">
+                <a asp-action="Create" class="schedule-btn schedule-btn-add pulse-animation">
+                    <i class="fas fa-plus me-2"></i>
+                    Thêm lịch thi
+                </a>
+            </div>
+        }
+
+        <!-- Table Section -->
+        <div class="schedule-card">
+            @if (Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table schedule-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <i class="fas fa-hashtag me-2"></i>
+                                    #
+                                </th>
+                                <th>
+                                    <i class="fas fa-book me-2"></i>
+                                    Môn thi
+                                </th>
+                                <th>
+                                    <i class="fas fa-calendar me-2"></i>
+                                    Ngày thi
+                                </th>
+                                <th>
+                                    <i class="fas fa-clock me-2"></i>
+                                    Giờ thi
+                                </th>
+                                <th>
+                                    <i class="fas fa-door-open me-2"></i>
+                                    Phòng
+                                </th>
+                                <th>
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    Trạng thái
+                                </th>
+                                <th>
+                                    <i class="fas fa-cogs me-2"></i>
+                                    Hành động
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int stt = 1;
+                                foreach (var item in Model)
+                                {
+                                    var statusClass = "";
+                                    var statusText = "";
+                                    var statusIcon = "";
+
+                                    if (item.NgayThi < DateTime.Today)
+                                    {
+                                        statusClass = "schedule-status-completed";
+                                        statusText = "Đã thi";
+                                        statusIcon = "fas fa-check";
+                                    }
+                                    else if (item.NgayThi == DateTime.Today)
+                                    {
+                                        statusClass = "schedule-status-today";
+                                        statusText = "Hôm nay";
+                                        statusIcon = "fas fa-star";
+                                    }
+                                    else
+                                    {
+                                        statusClass = "schedule-status-upcoming";
+                                        statusText = "Sắp thi";
+                                        statusIcon = "fas fa-clock";
+                                    }
+
+                                    <tr data-id="@item.ID_Lich">
+                                        <td>
+                                            <div class="schedule-number">@stt</div>
+                                        </td>
+                                        <td>
+                                            <span class="schedule-subject">@item.MonThi?.TenMon</span>
+                                        </td>
+                                        <td>
+                                            <span class="schedule-date">
+                                                <i class="fas fa-calendar me-1 text-primary"></i>
+                                                @item.NgayThi.ToString("dd/MM/yyyy")
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="schedule-time">
+                                                <i class="fas fa-clock me-1 text-warning"></i>
+                                                @item.GioThi.ToString(@"hh\:mm")
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="schedule-room">@item.PhongThi?.TenPhong</span>
+                                        </td>
+                                        <td>
+                                            <span class="schedule-status @statusClass">
+                                                <i class="@statusIcon me-1"></i>
+                                                @statusText
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a asp-controller="DangKy" asp-action="DangKy" asp-route-idLich="@item.ID_Lich" class="schedule-btn schedule-btn-register">
+                                                <i class="fas fa-user-plus me-1"></i>
+                                                Đăng ký
+                                            </a>
+                                            <a asp-action="Details" asp-route-id="@item.ID_Lich" class="schedule-btn schedule-btn-details">
+                                                <i class="fas fa-eye me-1"></i>
+                                                Chi tiết
+                                            </a>
+                                            @if (User.IsInRole("admin") || User.IsInRole("giaovien"))
+                                            {
+                                                <a asp-action="Edit" asp-route-id="@item.ID_Lich" class="schedule-btn schedule-btn-edit">
+                                                    <i class="fas fa-edit me-1"></i>
+                                                    Sửa
+                                                </a>
+                                                <a asp-action="Delete" asp-route-id="@item.ID_Lich" class="schedule-btn schedule-btn-delete" onclick="return confirm('Bạn có chắc chắn muốn xóa lịch thi này?');">
+                                                    <i class="fas fa-trash me-1"></i>
+                                                    Xóa
+                                                </a>
+                                            }
+                                        </td>
+                                    </tr>
+                                    stt++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <i class="fas fa-calendar-alt" style="font-size: 5rem; color: #6c757d; margin-bottom: 20px;"></i>
+                    <h3 style="color: #495057; margin-bottom: 15px;">Không có lịch thi nào</h3>
+                    <p style="font-size: 1.1rem; color: #6c757d; margin-bottom: 25px;">Hãy thêm lịch thi đầu tiên để bắt đầu</p>
+                    @if (User.IsInRole("admin") || User.IsInRole("giaovien"))
+                    {
+                        <a asp-action="Create" class="schedule-btn schedule-btn-add">
+                            <i class="fas fa-plus me-2"></i>
+                            Thêm lịch thi đầu tiên
+                        </a>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.0/signalr.min.js"></script>
+    <script>
+        // Enhanced animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Enhanced hover effects for table rows
+            const tableRows = document.querySelectorAll('.schedule-table tbody tr');
+            tableRows.forEach((row, index) => {
+                row.style.animationDelay = `${index * 0.1}s`;
+                
+                row.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.03) translateX(8px)';
+                    this.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.2)';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1) translateX(0)';
+                    this.style.boxShadow = 'none';
+                });
+            });
+
+            // Add ripple effect to buttons
+            const buttons = document.querySelectorAll('.schedule-btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.classList.add('ripple');
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+        });
+
+        // SignalR connection
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/lichThiHub")
+            .build();
+
+        connection.start().then(() => {
+            console.log("SignalR connected to /lichThiHub");
+        }).catch(err => console.error(err.toString()));
+
+        connection.on("ReceiveLichThi", function (data) {
+            const table = document.querySelector("tbody");
+            const stt = table.rows.length + 1;
+            const row = document.createElement("tr");
+            row.setAttribute("data-id", data.id);
+            let badgeHtml = "";
+            if (data.trangThai === "Đã thi")
+                badgeHtml = `<span class="schedule-status schedule-status-completed"><i class="fas fa-check me-1"></i>Đã thi</span>`;
+            else if (data.trangThai === "Hôm nay")
+                badgeHtml = `<span class="schedule-status schedule-status-today"><i class="fas fa-star me-1"></i>Hôm nay</span>`;
+            else
+                badgeHtml = `<span class="schedule-status schedule-status-upcoming"><i class="fas fa-clock me-1"></i>Sắp thi</span>`;
+            row.innerHTML = `
+                <td><div class="schedule-number">${stt}</div></td>
+                <td><span class="schedule-subject">${data.mon}</span></td>
+                <td><span class="schedule-date"><i class="fas fa-calendar me-1 text-primary"></i>${data.ngay}</span></td>
+                <td><span class="schedule-time"><i class="fas fa-clock me-1 text-warning"></i>${data.gio}</span></td>
+                <td><span class="schedule-room">${data.phong}</span></td>
+                <td>${badgeHtml}</td>
+                <td><i>Vừa thêm</i></td>
+            `;
+            table.appendChild(row);
+            const notify = document.getElementById("lichThiNotify");
+            notify.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+            setTimeout(() => notify.innerHTML = '', 10000);
+        });
+
+        connection.on("UpdateLichThi", function (data) {
+            const row = document.querySelector(`tr[data-id='${data.id}']`);
+            if (row) {
+                row.children[1].innerHTML = `<span class="schedule-subject">${data.mon}</span>`;
+                row.children[2].innerHTML = `<span class="schedule-date"><i class="fas fa-calendar me-1 text-primary"></i>${data.ngay}</span>`;
+                row.children[3].innerHTML = `<span class="schedule-time"><i class="fas fa-clock me-1 text-warning"></i>${data.gio}</span>`;
+                row.children[4].innerHTML = `<span class="schedule-room">${data.phong}</span>`;
+                let badgeHtml = "";
+                if (data.trangThai === "Đã thi")
+                    badgeHtml = `<span class="schedule-status schedule-status-completed"><i class="fas fa-check me-1"></i>Đã thi</span>`;
+                else if (data.trangThai === "Hôm nay")
+                    badgeHtml = `<span class="schedule-status schedule-status-today"><i class="fas fa-star me-1"></i>Hôm nay</span>`;
+                else
+                    badgeHtml = `<span class="schedule-status schedule-status-upcoming"><i class="fas fa-clock me-1"></i>Sắp thi</span>`;
+                row.children[5].innerHTML = badgeHtml;
+            }
+            const notify = document.getElementById("lichThiNotify");
+            notify.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+            setTimeout(() => notify.innerHTML = '', 10000);
+        });
+
+        connection.on("DeleteLichThi", function (data) {
+            const row = document.querySelector(`tr[data-id='${data.id}']`);
+            if (row) row.remove();
+            const notify = document.getElementById("lichThiNotify");
+            notify.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+            setTimeout(() => notify.innerHTML = '', 10000);
+        });
+    </script>
+}

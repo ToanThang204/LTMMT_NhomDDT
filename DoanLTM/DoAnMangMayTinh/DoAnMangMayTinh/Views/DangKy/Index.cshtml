@@ -1,0 +1,92 @@
+﻿@using System.Linq
+@model IEnumerable<DoAnMangMayTinh.Models.DangKy>
+@if (ViewBag.ThongBaoLichThi != null)
+{
+    <div class="alert alert-warning text-center mb-3">
+        <i class="fas fa-bell"></i> @ViewBag.ThongBaoLichThi
+    </div>
+}
+<table class="table table-bordered table-hover mt-4">
+    <thead class="table-primary">
+        <tr>
+            <th>#</th>
+            <th>Môn thi</th>
+            <th>Ngày thi</th>
+            <th>Giờ thi</th>
+            <th>Phòng thi</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        <h4 class="mt-5">Các môn thi còn chỗ</h4>
+        @if (((List<DoAnMangMayTinh.Models.LichThi>)ViewBag.LichThiConCho).Any())
+        {
+            foreach (var lich in (List<DoAnMangMayTinh.Models.LichThi>)ViewBag.LichThiConCho)
+            {
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5>@lich.MonThi.TenMon</h5>
+                        <p>Ngày thi: @lich.NgayThi.ToString("dd/MM/yyyy")</p>
+                        <p>Giờ thi: @lich.GioThi.ToString(@"hh\:mm")</p>
+                        <p>Phòng: @lich.PhongThi.TenPhong</p>
+                        <p>Còn lại: @(lich.PhongThi.SoLuongChoNgoi - lich.DangKys.Count) chỗ</p>
+                        <form asp-action="DangKy" method="post">
+                            <input type="hidden" name="idLich" value="@lich.ID_Lich" />
+                            <button type="submit" class="btn btn-success">Đăng ký</button>
+                        </form>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="alert alert-info">Hiện tại không có lịch thi nào còn chỗ.</div>
+        }
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="7" class="text-center text-muted">Bạn chưa đăng ký môn nào.</td>
+            </tr>
+        }
+        else
+        {
+            int stt = 1;
+            foreach (var dk in Model)
+            {
+                <tr>
+                    <td>@stt</td>
+                    <td>@dk.LichThi.MonThi?.TenMon</td>
+                    <td>@dk.LichThi.NgayThi.ToString("dd/MM/yyyy")</td>
+                    <td>@dk.LichThi.GioThi.ToString(@"hh\:mm")</td>
+                    <td>@dk.LichThi.PhongThi?.TenPhong</td>
+                    <td>
+                        <a asp-controller="DangKy" asp-action="XoaDangKy" asp-route-idLich="@dk.ID_Lich" class="btn btn-danger btn-sm"
+                           onclick="return confirm('Bạn có chắc muốn hủy đăng ký môn này?');">
+                            Hủy
+                        </a>
+                    </td>
+                </tr>
+                stt++;
+            }
+        }
+    </tbody>
+</table>
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/notificationHub")
+            .build();
+
+        connection.on("ReceiveThongBaoLichThi", function (message) {
+            alert(message);
+        });
+            connection.on("hienThongBao", function (message) {
+            $("#noidung-thongbao").text(message);
+            $("#toast-thongbao").fadeIn().delay(5000).fadeOut();
+        });
+        connection.start().catch(function (err) {
+            return console.error(err.toString());
+        });
+    </script>
+}

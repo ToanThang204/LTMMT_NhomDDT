@@ -1,0 +1,29 @@
+﻿@model DoAnMangMayTinh.Models.GiaoVien
+
+@{
+    ViewData["Title"] = "Create GiaoVien";
+}
+
+<h2>Thêm Giao Vien</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="HoTen" class="control-label"></label>
+        <input asp-for="HoTen" class="form-control" />
+        <span asp-validation-for="HoTen" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="NgaySinh" class="control-label"></label>
+        <input asp-for="NgaySinh" class="form-control" type="date" />
+        <span asp-validation-for="NgaySinh" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Lưu</button>
+    <a asp-action="Index" class="btn btn-secondary">Huỷ</a>
+</form>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

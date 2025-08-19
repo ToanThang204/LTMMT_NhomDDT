@@ -1,0 +1,14 @@
+<span class="user-role">
+    @if (User.IsInRole("admin"))
+    {
+        <span><i class="fas fa-crown"></i> Quản trị viên</span>
+    }
+    else if (User.IsInRole("giaovien"))
+    {
+        <span><i class="fas fa-chalkboard-teacher"></i> Giáo viên</span>
+    }
+    else if (User.IsInRole("sinhvien"))
+    {
+        <span><i class="fas fa-user-graduate"></i> Sinh viên</span>
+    }
+</span> 

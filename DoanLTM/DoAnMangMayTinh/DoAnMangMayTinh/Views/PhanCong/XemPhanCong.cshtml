@@ -1,0 +1,40 @@
+﻿@model IEnumerable<DoAnMangMayTinh.Models.PhanCong>
+
+@{
+    ViewData["Title"] = "Phân công coi thi";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (!Model.Any())
+{
+    <p>Không có phân công nào.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Giáo viên</th>
+                <th>Kỳ thi</th>
+                <th>Môn thi</th>
+                <th>Phòng thi</th>
+                <th>Ngày thi</th>
+                <th>Giờ thi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pc in Model)
+            {
+                <tr>
+                    <td>@pc.GiaoVien?.HoTen</td>
+                    <td>@pc.LichThi?.KyThi?.TenKy</td>
+                    <td>@pc.LichThi?.MonThi?.TenMon</td>
+                    <td>@pc.LichThi?.PhongThi?.TenPhong</td>
+                    <td>@pc.LichThi?.NgayThi.ToString("dd/MM/yyyy")</td>
+                    <td>@pc.LichThi?.GioThi</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,87 @@
+﻿@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+<!-- Welcome Section -->
+<div class="content-card">
+    <div class="row align-items-center">
+        <div class="col-md-8">
+            <h2 class="text-gradient mb-3">Chào mừng đến với Hệ Thống Quản Lý Thi</h2>
+            <p class="lead mb-4">
+                Hệ thống quản lý đăng ký, xếp lịch thi và kiểm tra thời gian thực cho trường học và trung tâm đào tạo.
+            </p>
+        </div>
+        <div class="col-md-4 text-center">
+            <div class="glass-effect p-4 rounded">
+                <i class="fas fa-graduation-cap" style="font-size: 4rem; color: #667eea;"></i>
+                <h4 class="mt-3 mb-0">Hệ Thống Thi</h4>
+                <p class="text-muted mb-0">Quản lý thông minh</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="thongbao-popup" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none;
+    background: #ffd166;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    z-index: 9999;
+    font-weight: bold;
+">
+    📢 Bạn có thông báo mới!
+</div>
+
+@section Scripts {
+    <script>
+        // Add some interactive features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate counters
+            const counters = document.querySelectorAll('.card-value');
+            counters.forEach(counter => {
+                const target = parseInt(counter.textContent);
+                let current = 0;
+                const increment = target / 50;
+                
+                const updateCounter = () => {
+                    if (current < target) {
+                        current += increment;
+                        counter.textContent = Math.ceil(current);
+                        setTimeout(updateCounter, 20);
+                    } else {
+                        counter.textContent = target;
+                    }
+                };
+                
+                updateCounter();
+            });
+
+            // Add hover effects to dashboard cards
+            const cards = document.querySelectorAll('.dashboard-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+            $(document).ready(function () {
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("/thongBaoHub")
+                .build();
+
+            connection.on("ThongBaoMoi", function (data) {
+                $("#thongbao-popup").fadeIn(500).delay(5000).fadeOut(500);
+            });
+
+            connection.start().catch(err => console.error("Lỗi SignalR:", err));
+        });
+    </script>
+}

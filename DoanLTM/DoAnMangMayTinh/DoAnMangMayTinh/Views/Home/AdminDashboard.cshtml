@@ -1,0 +1,178 @@
+﻿@model DoAnMangMayTinh.Models.AdminDashboardViewModel
+
+@{
+    ViewData["Title"] = "";
+}
+<style>
+    .modern-dashboard-bg {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+        padding: 40px 0;
+    }
+
+    .modern-dashboard-title {
+        color: #333;
+        font-weight: 700;
+        margin-bottom: 36px;
+        letter-spacing: 1px;
+        text-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    .modern-card {
+        background: rgba(255,255,255,0.7);
+        border-radius: 22px;
+        box-shadow: 0 8px 32px 0 rgba(31,38,135,0.10);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255,255,255,0.24);
+        padding: 36px 0 28px 0;
+        transition: 0.2s;
+        position: relative;
+        overflow: hidden;
+    }
+        .modern-card:hover {
+            transform: translateY(-8px) scale(1.04);
+            box-shadow: 0 12px 36px rgba(0,0,0,0.13);
+        }
+    .modern-icon {
+        font-size: 2.7rem;
+        margin-bottom: 14px;
+        border-radius: 50%;
+        padding: 20px;
+        color: #fff;
+        display: inline-block;
+        background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+        box-shadow: 0 2px 12px rgba(67,206,162,0.18);
+    }
+    .modern-blue {
+        background: linear-gradient(135deg, #36d1c4, #5b86e5);
+    }
+
+    .modern-green {
+        background: linear-gradient(135deg, #43e97b, #38f9d7);
+    }
+
+    .modern-yellow {
+        background: linear-gradient(135deg, #f7971e, #ffd200);
+    }
+
+    .modern-cyan {
+        background: linear-gradient(135deg, #43cea2, #185a9d);
+    }
+
+    .modern-red {
+        background: linear-gradient(135deg, #fa709a, #fee140);
+    }
+
+    .modern-purple {
+        background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+    }
+
+    .modern-orange {
+        background: linear-gradient(135deg, #f7971e, #ffd200);
+    }
+
+    .modern-pink {
+        background: linear-gradient(135deg, #f857a6, #ff5858);
+    }
+
+    .modern-value {
+        font-size: 2.3rem;
+        font-weight: bold;
+        margin-bottom: 6px;
+        color: #222;
+        letter-spacing: 1px;
+    }
+
+    .modern-label {
+        font-size: 1.08rem;
+        color: #444;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+    }
+</style>
+
+<div class="modern-dashboard-bg">
+    <div class="container">
+        <h2 class="modern-dashboard-title"><i class="fas fa-tachometer-alt me-2"></i>Dashboard Quản trị</h2>
+        <div class="row g-4 mb-4">
+            <div class="col-md-3 col-6">
+                <div class="modern-card text-center">
+                    <span class="modern-icon modern-blue"><i class="fas fa-user-graduate"></i></span>
+                    <div class="modern-value">@Model.TotalSinhVien</div>
+                    <div class="modern-label">Số lượng sinh viên</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="modern-card text-center">
+                    <span class="modern-icon modern-green"><i class="fas fa-chalkboard-teacher"></i></span>
+                    <div class="modern-value">@Model.TotalGiaoVien</div>
+                    <div class="modern-label">Giảng viên</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="modern-card text-center">
+                    <span class="modern-icon modern-yellow"><i class="fas fa-calendar-alt"></i></span>
+                    <div class="modern-value">@Model.TotalLichThi</div>
+                    <div class="modern-label">Lịch thi hiện có</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="modern-card text-center">
+                    <span class="modern-icon modern-cyan"><i class="fas fa-door-open"></i></span>
+                    <div class="modern-value">@Model.TotalPhongThi</div>
+                    <div class="modern-label">Tổng phòng thi</div>
+                </div>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-3 col-6">
+                <div class="modern-card text-center">
+                    <span class="modern-icon modern-red"><i class="fas fa-bell"></i></span>
+                    <div class="modern-value">@Model.TotalThongBao</div>
+                    <div class="modern-label">Thông báo</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="modern-card text-center">
+                    <span class="modern-icon modern-purple"><i class="fas fa-layer-group"></i></span>
+                    <div class="modern-value">@Model.TotalLop</div>
+                    <div class="modern-label">Số lượng lớp</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="modern-card text-center">
+                    <span class="modern-icon modern-orange"><i class="fas fa-book"></i></span>
+                    <div class="modern-value">@Model.TotalMonThi</div>
+                    <div class="modern-label">Tổng môn thi</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="modern-card text-center">
+                    <span class="modern-icon modern-pink"><i class="fas fa-check-circle"></i></span>
+                    <div class="modern-value" id="totalDangKy">@Model.TotalDangKy</div>
+                    <div class="modern-label">Tổng đăng ký thi</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+    <script>
+        const dangKyConnection = new signalR.HubConnectionBuilder()
+            .withUrl("/dangKyHub")
+            .build();
+
+        dangKyConnection.on("UpdateDangKy", function (data) {
+            if (data.totalDangKy !== undefined) {
+                const el = document.getElementById("totalDangKy");
+                el.textContent = data.totalDangKy;
+                el.style.color = "red";
+                setTimeout(() => el.style.color = "#222", 1000);
+            }
+            showToast(data.message);
+        });
+
+        dangKyConnection.start().catch(err => console.error(err.toString()));
+    </script>
+}

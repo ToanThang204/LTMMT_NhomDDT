@@ -1,0 +1,39 @@
+﻿@model DoAnMangMayTinh.Models.PhanCong
+
+@{
+    ViewData["Title"] = "Chi tiết phân công";
+}
+
+<h1>Chi tiết phân công</h1>
+
+<div>
+    <h4>Phân công</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Giáo viên
+        </dt>
+        <dd class="col-sm-10">
+            @Model.GiaoVien?.HoTen
+        </dd>
+
+        <dt class="col-sm-2">
+            Môn thi
+        </dt>
+        <dd class="col-sm-10">
+            @Model.LichThi?.MonThi?.TenMon
+        </dd>
+
+        <dt class="col-sm-2">
+            Vai trò
+        </dt>
+        <dd class="col-sm-10">
+            @Model.VaiTro
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID_PC" class="btn btn-warning">Sửa</a>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</div>

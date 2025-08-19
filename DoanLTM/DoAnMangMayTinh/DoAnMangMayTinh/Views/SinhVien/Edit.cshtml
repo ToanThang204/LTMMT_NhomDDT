@@ -1,0 +1,51 @@
+﻿@model DoAnMangMayTinh.Models.SinhVien
+
+@{
+    ViewData["Title"] = "Chỉnh sửa sinh viên";
+}
+
+<h2 class="text-gradient mb-4">@ViewData["Title"]</h2>
+
+<form asp-action="Edit" class="p-4 bg-white rounded shadow-sm">
+    <input type="hidden" asp-for="ID_SV" />
+
+    <!-- Mã SV (disabled) -->
+    <div class="mb-3">
+        <label class="form-label">Mã SV</label>
+        <input asp-for="ID_SV" class="form-control" readonly />
+    </div>
+
+    <!-- Họ và tên -->
+    <div class="mb-3">
+        <label asp-for="HoTen" class="form-label">Họ và tên</label>
+        <input asp-for="HoTen" class="form-control" placeholder="Nhập họ tên sinh viên" />
+        <span asp-validation-for="HoTen" class="text-danger"></span>
+    </div>
+
+    <!-- Ngày sinh -->
+    <div class="mb-3">
+        <label asp-for="NgaySinh" class="form-label">Ngày sinh</label>
+        <input asp-for="NgaySinh" type="date" class="form-control" />
+        <span asp-validation-for="NgaySinh" class="text-danger"></span>
+    </div>
+
+    <!-- Lớp -->
+    <div class="mb-3">
+        <label asp-for="MaLop" class="form-label">Lớp</label>
+        <select asp-for="MaLop" class="form-select" asp-items="ViewBag.MaLop">
+            <option value="">-- Chọn lớp --</option>
+        </select>
+        <span asp-validation-for="MaLop" class="text-danger"></span>
+    </div>
+
+    <!-- Buttons -->
+    <div class="d-flex gap-2 mt-4">
+        <button type="submit" class="btn btn-warning">
+            💾 Lưu
+        </button>
+
+        <a asp-action="Index" class="btn btn-secondary">
+            ↩️ Quay lại
+        </a>
+    </div>
+</form>

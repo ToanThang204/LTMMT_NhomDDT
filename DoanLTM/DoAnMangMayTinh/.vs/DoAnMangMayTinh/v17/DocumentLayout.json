@@ -1,0 +1,63 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\LapTrinhMangMayTinh\\DoanLTM\\DoanLTM\\DoAnMangMayTinh\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{DC9500AA-875B-4523-9523-837BD1CFF78A}|DoAnMangMayTinh\\DoAnMangMayTinh.csproj|d:\\laptrinhmangmaytinh\\doanltm\\doanltm\\doanmangmaytinh\\doanmangmaytinh\\test.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{DC9500AA-875B-4523-9523-837BD1CFF78A}|DoAnMangMayTinh\\DoAnMangMayTinh.csproj|solutionrelative:doanmangmaytinh\\test.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "test.txt",
+              "DocumentMoniker": "D:\\LapTrinhMangMayTinh\\DoanLTM\\DoanLTM\\DoAnMangMayTinh\\DoAnMangMayTinh\\test.txt",
+              "RelativeDocumentMoniker": "DoAnMangMayTinh\\test.txt",
+              "ToolTip": "D:\\LapTrinhMangMayTinh\\DoanLTM\\DoanLTM\\DoAnMangMayTinh\\DoAnMangMayTinh\\test.txt",
+              "RelativeToolTip": "DoAnMangMayTinh\\test.txt",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAAABQAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2025-08-07T01:05:05.848Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 458,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

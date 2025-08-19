@@ -1,0 +1,26 @@
+﻿@model DoAnMangMayTinh.Models.KyThi
+
+@{
+    ViewData["Title"] = "Chi tiết kỳ thi";
+}
+
+<h2>Chi tiết kỳ thi</h2>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">Mã kỳ thi</dt>
+        <dd class="col-sm-10">@Model.ID_KyThi</dd>
+
+        <dt class="col-sm-2">Tên kỳ thi</dt>
+        <dd class="col-sm-10">@Model.TenKy</dd>
+
+        <dt class="col-sm-2">Thời gian bắt đầu</dt>
+        <dd class="col-sm-10">@Model.NgayBatDau</dd>
+
+        <dt class="col-sm-2">Thời gian kết thúc</dt>
+        <dd class="col-sm-10">@Model.NgayKetThuc</dd>
+    </dl>
+</div>
+
+<a asp-action="Edit" asp-route-id="@Model.ID_KyThi" class="btn btn-warning">Sửa</a>
+<a asp-action="Index" class="btn btn-secondary">Quay lại</a>

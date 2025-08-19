@@ -1,0 +1,35 @@
+﻿@model DoAnMangMayTinh.Models.PhongThi
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>PhongThi</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID_Phong" />
+            <div class="form-group">
+                <label asp-for="TenPhong" class="control-label"></label>
+                <input asp-for="TenPhong" class="form-control" />
+                <span asp-validation-for="TenPhong" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SoLuongChoNgoi" class="control-label"></label>
+                <input asp-for="SoLuongChoNgoi" class="form-control" />
+                <span asp-validation-for="SoLuongChoNgoi" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Cập nhật</button>
+            <a asp-action="Index" class="btn btn-secondary">Huỷ</a>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

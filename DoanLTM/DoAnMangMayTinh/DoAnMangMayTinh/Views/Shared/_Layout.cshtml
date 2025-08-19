@@ -1,0 +1,345 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Hệ Thống Quản Lý Thi</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/DoAnMangMayTinh.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+</head>
+<body>
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="@Url.Action("Index", "Home")" class="sidebar-brand">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Quản Lý Thi</span>
+                </a>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Tổng quan</div>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")" 
+                               asp-controller="Home" asp-action="Index">
+                                <i class="fas fa-home"></i>
+                                <span>Trang chủ</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["Action"]?.ToString() == "About" ? "active" : "")" 
+                               asp-controller="Home" asp-action="About">
+                                <i class="fas fa-info-circle"></i>
+                                <span>Giới thiệu</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @if (User.IsInRole("admin"))
+                    {
+                        <div class="nav-section">
+                            <div class="nav-section-title">Quản lý hệ thống</div>
+                            <ul class="nav-list">
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "AdminDashboard" ? "active" : "")"
+                                       asp-controller="Home" asp-action="AdminDashboard">
+                                        <i class="fas fa-tachometer-alt"></i>
+                                        <span>Dashboard Quản trị</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Lop" ? "active" : "")" 
+                                       asp-controller="Lop" asp-action="Index">
+                                        <i class="fas fa-users"></i>
+                                        <span>Quản lý lớp</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "GiaoVien" ? "active" : "")" 
+                                       asp-controller="GiaoVien" asp-action="Index">
+                                        <i class="fas fa-chalkboard-teacher"></i>
+                                        <span>Quản lý giáo viên</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "SinhVien" ? "active" : "")" 
+                                       asp-controller="SinhVien" asp-action="Index">
+                                        <i class="fas fa-user-graduate"></i>
+                                        <span>Quản lý sinh viên</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="nav-section">
+                            <div class="nav-section-title">Quản lý thi cử</div>
+                            <ul class="nav-list">
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "DangKy" && ViewContext.RouteData.Values["Action"]?.ToString() == "TongHopDangKy" ? "active" : "")"
+                                       asp-controller="DangKy" asp-action="TongHopDangKy">
+                                        <i class="fas fa-list"></i>
+                                        <span>Tổng hợp đăng ký</span>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "MonThi" ? "active" : "")" 
+                                       asp-controller="MonThi" asp-action="Index">
+                                        <i class="fas fa-book"></i>
+                                        <span>Quản lý môn thi</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "KyThi" ? "active" : "")" 
+                                       asp-controller="KyThi" asp-action="Index">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <span>Quản lý kỳ thi</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "PhongThi" ? "active" : "")"
+                                       asp-controller="PhongThi" asp-action="Index">
+                                        <i class="fas fa-door-open"></i>
+                                        <span>Quản lý phòng thi</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "LichThi" ? "active" : "")" 
+                                       asp-controller="LichThi" asp-action="Index">
+                                        <i class="fas fa-clock"></i>
+                                        <span>Quản lý lịch thi</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "PhanCong" ? "active" : "")"
+                                        asp-controller="PhanCong" asp-action="Index">
+                                        <i class="fas fa-tasks"></i>
+                                        <span>Phân công coi thi</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+
+                    @if (User.IsInRole("giaovien"))
+                    {
+                        <div class="nav-section">
+                            <div class="nav-section-title">Giáo viên</div>
+                            <ul class="nav-list">
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "PhanCong" ? "active" : "")" 
+                                       asp-controller="PhanCong" asp-action="XemPhanCong">
+                                        <i class="fas fa-tasks"></i>
+                                        <span>Phân công coi thi</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+
+                    @if (User.IsInRole("sinhvien"))
+                    {
+                        <div class="nav-section">
+                            <div class="nav-section-title">Sinh viên</div>
+                            <ul class="nav-list">
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "DangKy" ? "active" : "")" 
+                                       asp-controller="DangKy" asp-action="Index">
+                                        <i class="fas fa-edit"></i>
+                                        <span>Lịch Thi đã đăng ký</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "LichThi" ? "active" : "")" 
+                                       asp-controller="LichThi" asp-action="Index">
+                                        <i class="fas fa-calendar-check"></i>
+                                        <span>Đăng Ký lịch thi</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+
+                    <div class="nav-section">
+                        <div class="nav-section-title">Thông báo</div>
+                        <ul class="nav-list">
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "ThongBao" ? "active" : "")" 
+                                   asp-controller="ThongBao" asp-action="Index">
+                                    <i class="fas fa-bell"></i>
+                                    <span>Thông báo</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                }
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="content-header">
+                <div class="header-left">
+                    <button class="btn btn-link d-md-none" id="sidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="page-title">@ViewData["Title"]</h1>
+                </div>
+                
+                <div class="user-info">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div class="user-details">
+                            <span class="user-name">@User.Identity.Name</span>
+                            <span class="user-role">
+                                @if (User.IsInRole("admin"))
+                                {
+                                    <span><i class="fas fa-crown"></i> Quản trị viên</span>
+                                }
+                                else if (User.IsInRole("giaovien"))
+                                {
+                                    <span><i class="fas fa-chalkboard-teacher"></i> Giáo viên</span>
+                                }
+                                else if (User.IsInRole("sinhvien"))
+                                {
+                                    <span><i class="fas fa-user-graduate"></i> Sinh viên</span>
+                                }
+                            </span>
+                        </div>
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <a href="@Url.Action("Logout", "Login")" class="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Đăng xuất
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Index", "Login")" class="btn btn-primary">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Đăng nhập
+                        </a>
+                    }
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="page-content fade-in-up">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.0/signalr.min.js"></script>
+    
+    <script>
+        // Sidebar toggle for mobile
+        document.getElementById('sidebarToggle')?.addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('show');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(e) {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !sidebarToggle.contains(e.target)) {
+                sidebar.classList.remove('show');
+            }
+        });
+
+        //         const connection = new signalR.HubConnectionBuilder()
+        //     .withUrl("/notificationHub")
+        //     .build();
+
+        // connection.on("ReceiveMessage", function (message) {
+        //     showNotification(message);
+        // });
+
+        // connection.start().catch(err => console.error(err.toString()));
+
+
+        // Custom notification function
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'alert alert-info alert-dismissible fade show';
+            notification.innerHTML = `
+                <i class="fas fa-info-circle"></i>
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            const container = document.querySelector('.page-content');
+            container.insertBefore(notification, container.firstChild);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+
+        // Add smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+    <script src="~/js/site.js"></script>
+
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/lichthiHub")
+            .build();
+
+        connection.on("LichThiUpdated", function (message) {
+            const notifyArea = document.getElementById("lichThiNotify");
+            if (notifyArea) {
+                notifyArea.innerHTML = `<div class="alert alert-success">${message}</div>`;
+                setTimeout(() => notifyArea.innerHTML = "", 5000);
+            }
+        });
+
+        connection.start().catch(function (err) {
+            return console.error(err.toString());
+        });
+    </script>
+
+    <!-- Toast Container -->
+    <div id="toast-container" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+"   ></div>
+
+
+</body>
+</html>

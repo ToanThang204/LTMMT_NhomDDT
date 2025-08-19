@@ -1,0 +1,35 @@
+﻿@model DoAnMangMayTinh.Models.PhanCong
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>PhanCong</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ID_GV" class="control-label"></label>
+                <select asp-for="ID_GV" class ="form-control" asp-items="ViewBag.ID_GV"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ID_Lich" class="control-label"></label>
+                <select asp-for="ID_Lich" class="form-control" asp-items="ViewBag.ID_Lich"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="VaiTro" class="control-label"></label>
+                <input asp-for="VaiTro" class="form-control" />
+                <span asp-validation-for="VaiTro" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Lưu</button>
+            <a asp-action="Index" class="btn btn-secondary">Huỷ</a>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

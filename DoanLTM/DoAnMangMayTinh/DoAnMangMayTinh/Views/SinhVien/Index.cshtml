@@ -1,0 +1,305 @@
+﻿@model IEnumerable<DoAnMangMayTinh.Models.SinhVien>
+
+@{
+    ViewData["Title"] = "Danh sách sinh viên";
+}
+
+<div id="lichThiNotify" class="text-center mt-2"></div>
+
+
+<!-- Page Header -->
+<div class="content-card">
+    <div class="row align-items-center">
+        <div class="col-md-8">
+            <h2 class="text-gradient mb-2">
+                <i class="fas fa-user-graduate me-3"></i>
+                Quản lý sinh viên
+            </h2>
+            <p class="text-muted mb-0">
+                Quản lý thông tin sinh viên, đăng ký thi và theo dõi kết quả học tập
+            </p>
+        </div>
+        <div class="col-md-4 text-end">
+            <a asp-action="Create" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>
+                Thêm sinh viên mới
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="dashboard-grid">
+    <div class="dashboard-card">
+        <div class="card-header">
+            <h3 class="card-title">Tổng số sinh viên</h3>
+            <div class="card-icon primary">
+                <i class="fas fa-users"></i>
+            </div>
+        </div>
+        <div class="card-value">@Model.Count()</div>
+        <div class="card-description">
+            <i class="fas fa-arrow-up text-success"></i>
+            Tăng 8% so với tháng trước
+        </div>
+    </div>
+
+    <div class="dashboard-card">
+        <div class="card-header">
+            <h3 class="card-title">Sinh viên đã đăng ký thi</h3>
+            <div class="card-icon success">
+                <i class="fas fa-check-circle"></i>
+            </div>
+        </div>
+        <div class="card-value">@(Model.Count() * 0.85)</div>
+        <div class="card-description">
+            <i class="fas fa-percentage text-info"></i>
+            85% sinh viên đã đăng ký
+        </div>
+    </div>
+
+    <div class="dashboard-card">
+        <div class="card-header">
+            <h3 class="card-title">Sinh viên mới</h3>
+            <div class="card-icon warning">
+                <i class="fas fa-user-plus"></i>
+            </div>
+        </div>
+        <div class="card-value">@(Model.Count() * 0.12)</div>
+        <div class="card-description">
+            <i class="fas fa-calendar text-warning"></i>
+            Thêm trong tháng này
+        </div>
+    </div>
+
+    <div class="dashboard-card">
+        <div class="card-header">
+            <h3 class="card-title">Lớp học</h3>
+            <div class="card-icon info">
+                <i class="fas fa-chalkboard"></i>
+            </div>
+        </div>
+        <div class="card-value">@Model.Select(s => s.Lop?.TenLop).Distinct().Count()</div>
+        <div class="card-description">
+            <i class="fas fa-building text-primary"></i>
+            Số lớp đang hoạt động
+        </div>
+    </div>
+</div>
+
+<!-- Search and Filter -->
+<div class="content-card">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="fas fa-search"></i>
+                </span>
+                <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm sinh viên...">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <select class="form-control" id="classFilter">
+                <option value="">Tất cả lớp</option>
+                @foreach (var lop in Model.Select(s => s.Lop?.TenLop).Distinct().Where(l => !string.IsNullOrEmpty(l)))
+                {
+                    <option value="@lop">@lop</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3 text-end">
+            <button class="btn btn-outline-primary" onclick="exportToExcel()">
+                <i class="fas fa-download me-2"></i>
+                Xuất Excel
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Students Table -->
+<div class="content-card">
+    <div class="table-responsive">
+        <table class="table" id="studentsTable">
+    <thead>
+        <tr>
+                    <th>
+                        <i class="fas fa-id-card me-2"></i>
+                        Mã SV
+                    </th>
+                    <th>
+                        <i class="fas fa-user me-2"></i>
+                        Họ và tên
+                    </th>
+                    <th>
+                        <i class="fas fa-birthday-cake me-2"></i>
+                        Ngày sinh
+                    </th>
+                    <th>
+                        <i class="fas fa-chalkboard me-2"></i>
+                        Lớp
+                    </th>
+                    <th>
+                        <i class="fas fa-calendar-check me-2"></i>
+                        Trạng thái đăng ký
+                    </th>
+                    <th class="text-center">
+                        <i class="fas fa-cogs me-2"></i>
+                        Thao tác
+                    </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sv in Model)
+        {
+            <tr>
+                        <td>
+                            <span class="badge bg-primary">@sv.ID_SV</span>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="user-avatar me-3" style="width: 35px; height: 35px; font-size: 0.875rem;">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div>
+                                    <strong>@sv.HoTen</strong>
+                                    <br>
+                                    <small class="text-muted">@sv.ID_SV</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <i class="fas fa-calendar me-1 text-muted"></i>
+                            @sv.NgaySinh.ToString("dd/MM/yyyy")
+                        </td>
+                        <td>
+                            <span class="badge bg-info">@(sv.Lop?.TenLop ?? "Chưa phân lớp")</span>
+                        </td>
+                        <td>
+                            @{
+                                var registrationStatus = new Random().Next(0, 3); // Simulate registration status
+                                var statusClass = registrationStatus == 0 ? "bg-success" : 
+                                                registrationStatus == 1 ? "bg-warning" : "bg-danger";
+                                var statusText = registrationStatus == 0 ? "Đã đăng ký" : 
+                                               registrationStatus == 1 ? "Chưa đăng ký" : "Hết hạn";
+                                var statusIcon = registrationStatus == 0 ? "fa-check" : 
+                                               registrationStatus == 1 ? "fa-clock" : "fa-times";
+                            }
+                            <span class="badge @statusClass">
+                                <i class="fas @statusIcon me-1"></i>
+                                @statusText
+                            </span>
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a asp-action="Details" asp-route-id="@sv.ID_SV" 
+                                   class="btn btn-sm btn-outline-info" title="Xem chi tiết">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@sv.ID_SV" 
+                                   class="btn btn-sm btn-outline-warning" title="Chỉnh sửa">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@sv.ID_SV" 
+                                   class="btn btn-sm btn-outline-danger" title="Xóa"
+                                   onclick="return confirm('Bạn có chắc chắn muốn xóa sinh viên này?')">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+    </div>
+</div>
+
+<!-- Pagination -->
+<div class="content-card">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <p class="text-muted mb-0">
+                Hiển thị <strong>@Model.Count()</strong> sinh viên
+            </p>
+        </div>
+        <div class="col-md-6">
+            <nav aria-label="Page navigation" class="float-end">
+                <ul class="pagination mb-0">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Trước</a>
+                    </li>
+                    <li class="page-item active">
+                        <a class="page-link" href="#">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Sau</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+            const table = document.getElementById('studentsTable');
+            const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            
+            for (let row of rows) {
+                const name = row.cells[1].textContent.toLowerCase();
+                const id = row.cells[0].textContent.toLowerCase();
+                
+                if (name.includes(searchTerm) || id.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        });
+
+        // Class filter
+        document.getElementById('classFilter').addEventListener('change', function() {
+            const selectedClass = this.value;
+            const table = document.getElementById('studentsTable');
+            const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            
+            for (let row of rows) {
+                const className = row.cells[3].textContent;
+                
+                if (selectedClass === '' || className.includes(selectedClass)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        });
+
+        // Export to Excel function
+        function exportToExcel() {
+            // This would typically call a server-side endpoint to generate Excel
+            alert('Tính năng xuất Excel sẽ được triển khai sau!');
+        }
+
+        // Add hover effects to table rows
+        document.addEventListener('DOMContentLoaded', function() {
+            const tableRows = document.querySelectorAll('#studentsTable tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = 'rgba(102, 126, 234, 0.05)';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+            });
+        });
+    </script>
+}

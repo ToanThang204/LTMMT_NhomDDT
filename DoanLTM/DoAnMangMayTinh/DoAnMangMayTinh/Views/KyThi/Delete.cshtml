@@ -1,0 +1,24 @@
+﻿@model DoAnMangMayTinh.Models.KyThi
+
+@{
+    ViewData["Title"] = "Xóa kỳ thi";
+}
+
+<h2>Xóa kỳ thi</h2>
+
+<h3>Bạn có chắc chắn muốn xóa kỳ thi này?</h3>
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">Mã kỳ thi</dt>
+        <dd class="col-sm-10">@Model.ID_KyThi</dd>
+
+        <dt class="col-sm-2">Tên kỳ thi</dt>
+        <dd class="col-sm-10">@Model.TenKy</dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="ID_KyThi" />
+        <button type="submit" class="btn btn-danger">Xóa</button> |
+        <a asp-action="Index" class="btn btn-secondary">Huỷ</a>
+    </form>
+</div>

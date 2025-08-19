@@ -1,0 +1,15 @@
+﻿@* Views/Lop/Delete.cshtml *@
+@model DoAnMangMayTinh.Models.Lop
+@{
+    ViewData["Title"] = "Xoá lớp";
+}
+<h2>@ViewData["Title"]</h2>
+<h4>Bạn có chắc chắn muốn xoá lớp này?</h4>
+<div>
+    <strong>@Model.MaLop - @Model.TenLop</strong>
+</div>
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="MaLop" />
+    <button type="submit" class="btn btn-danger">Xoá</button>
+    <a asp-action="Index" class="btn btn-secondary">Huỷ</a>
+</form>

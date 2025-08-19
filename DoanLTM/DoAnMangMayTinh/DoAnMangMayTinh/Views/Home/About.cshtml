@@ -1,0 +1,142 @@
+@{
+    ViewData["Title"] = "Giới thiệu hệ thống";
+}
+
+<!-- Hero Section -->
+<div class="content-card">
+    <div class="row align-items-center">
+        <div class="col-lg-8">
+            <h1 class="text-gradient mb-4">
+                <i class="fas fa-graduation-cap me-3"></i>
+                Hệ Thống Quản Lý Thi
+            </h1>
+            <p class="lead mb-4">
+                Giải pháp toàn diện cho việc quản lý đăng ký, xếp lịch thi và kiểm tra thời gian thực 
+                tại các trường học và trung tâm đào tạo.
+            </p>
+            <div class="d-flex gap-3 mb-4">
+                <div class="text-center">
+                    <div class="card-icon primary mx-auto mb-2" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h5>1,247+</h5>
+                    <small class="text-muted">Sinh viên</small>
+                </div>
+                <div class="text-center">
+                    <div class="card-icon success mx-auto mb-2" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <h5>89+</h5>
+                    <small class="text-muted">Giáo viên</small>
+                </div>
+                <div class="text-center">
+                    <div class="card-icon warning mx-auto mb-2" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h5>25+</h5>
+                    <small class="text-muted">Kỳ thi</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 text-center">
+            <div class="glass-effect p-4 rounded">
+                <i class="fas fa-rocket" style="font-size: 4rem; color: #667eea;"></i>
+                <h4 class="mt-3 mb-2">Phiên bản 2.0</h4>
+                <p class="text-muted mb-0">Giao diện hiện đại & Tính năng nâng cao</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Section -->
+<div class="content-card">
+    <h2 class="text-center mb-5">
+        <i class="fas fa-envelope text-primary me-3"></i>
+        Liên hệ hỗ trợ
+    </h2>
+    
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="row text-center">
+                <div class="col-md-4 mb-3">
+                    <div class="card-icon primary mx-auto mb-3" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h5>Email</h5>
+                    <p class="text-muted">support@quanlythi.com</p>
+                </div>
+                
+                <div class="col-md-4 mb-3">
+                    <div class="card-icon success mx-auto mb-3" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h5>Điện thoại</h5>
+                    <p class="text-muted">+84 123 456 789</p>
+                </div>
+                
+                <div class="col-md-4 mb-3">
+                    <div class="card-icon warning mx-auto mb-3" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h5>Địa chỉ</h5>
+                    <p class="text-muted">123 Đường ABC, Quận 1, TP.HCM</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Demo chart data
+        let chartData = {
+            labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'],
+            values: [65, 59, 80, 81, 56, 55],
+            colors: ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe', '#00f2fe']
+        };
+
+        // Initialize demo chart
+        document.addEventListener('DOMContentLoaded', function() {
+            createBarChart('demoChart', chartData);
+        });
+
+        // Update chart with random data
+        function updateChart() {
+            chartData.values = chartData.values.map(() => Math.floor(Math.random() * 100) + 20);
+            createBarChart('demoChart', chartData);
+            showNotification('Biểu đồ đã được cập nhật!', 'success');
+        }
+
+        // Add some interactive animations
+        document.querySelectorAll('.dashboard-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Animate numbers on page load
+        document.querySelectorAll('h5').forEach(h5 => {
+            if (h5.textContent.includes('+')) {
+                const target = parseInt(h5.textContent);
+                let current = 0;
+                const increment = target / 30;
+                
+                const updateNumber = () => {
+                    if (current < target) {
+                        current += increment;
+                        h5.textContent = Math.ceil(current) + '+';
+                        setTimeout(updateNumber, 50);
+                    } else {
+                        h5.textContent = target + '+';
+                    }
+                };
+                
+                updateNumber();
+            }
+        });
+    </script>
+} 

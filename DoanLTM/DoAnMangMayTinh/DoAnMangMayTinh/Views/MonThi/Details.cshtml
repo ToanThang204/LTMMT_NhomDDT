@@ -1,0 +1,14 @@
+﻿@* Views/MonThi/Details.cshtml *@
+@model DoAnMangMayTinh.Models.MonThi
+@{
+    ViewData["Title"] = "Chi tiết môn thi";
+}
+<h2>@ViewData["Title"]</h2>
+<div>
+    <h4>Mã môn: @Model.ID_Mon</h4>
+    <h4>Tên môn: @Model.TenMon</h4>
+</div>
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.ID_Mon" class="btn btn-warning">Sửa</a>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</p>

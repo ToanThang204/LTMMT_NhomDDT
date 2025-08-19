@@ -1,0 +1,501 @@
+﻿@model IEnumerable<DoAnMangMayTinh.Models.ThongBao>
+
+@{
+    ViewData["Title"] = "Thông báo";
+}
+
+<style>
+    .notification-page-bg {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 30px 0;
+    }
+
+    .notification-header {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(15px);
+        border-radius: 25px;
+        padding: 35px;
+        margin-bottom: 30px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .notification-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c);
+    }
+
+    .notification-title {
+        color: #fff;
+        font-weight: 800;
+        font-size: 3rem;
+        margin-bottom: 15px;
+        text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        letter-spacing: 1px;
+    }
+
+    .notification-subtitle {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.2rem;
+        margin-bottom: 0;
+        font-weight: 500;
+    }
+
+    .notification-card {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 25px;
+        padding: 35px;
+        margin-bottom: 25px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(15px);
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .notification-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+    }
+
+    .notification-card:hover {
+        transform: translateY(-8px) rotateX(5deg);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    .notification-table {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(15px);
+    }
+
+    .notification-table thead {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    .notification-table th {
+        border: none;
+        padding: 25px 20px;
+        font-weight: 700;
+        font-size: 1.2rem;
+        text-align: center;
+        letter-spacing: 0.5px;
+    }
+
+    .notification-table td {
+        border: none;
+        padding: 25px 20px;
+        text-align: center;
+        vertical-align: middle;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+        font-weight: 500;
+    }
+
+    .notification-table tbody tr {
+        transition: all 0.4s ease;
+        position: relative;
+    }
+
+    .notification-table tbody tr:hover {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        transform: scale(1.02) translateX(5px);
+    }
+
+    .notification-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 15px;
+        padding: 12px 30px;
+        color: white;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        text-decoration: none;
+        display: inline-block;
+        margin: 5px;
+    }
+
+    .notification-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        color: white;
+        text-decoration: none;
+    }
+
+    .notification-btn-add {
+        background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+        box-shadow: 0 4px 15px rgba(78, 205, 196, 0.4);
+    }
+
+    .notification-btn-add:hover {
+        box-shadow: 0 6px 20px rgba(78, 205, 196, 0.6);
+    }
+
+    .notification-btn-edit {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
+    }
+
+    .notification-btn-edit:hover {
+        box-shadow: 0 6px 20px rgba(240, 147, 251, 0.6);
+    }
+
+    .notification-btn-delete {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    }
+
+    .notification-btn-delete:hover {
+        box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+    }
+
+    .notification-btn-details {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .notification-btn-details:hover {
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+
+    .floating-animation {
+        animation: float 3s ease-in-out infinite;
+    }
+
+    .keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+
+    .pulse-animation {
+        animation: pulse 2s ease-in-out infinite;
+    }
+
+    .keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+
+    .notification-title-cell {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        display: inline-block;
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .notification-content {
+        font-weight: 500;
+        color: #495057;
+        font-size: 0.9rem;
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .notification-date {
+        font-weight: 600;
+        color: #495057;
+        font-size: 0.9rem;
+    }
+
+    .notification-status {
+        padding: 6px 12px;
+        border-radius: 15px;
+        font-weight: 600;
+        font-size: 0.8rem;
+        display: inline-block;
+    }
+
+    .notification-status-new {
+        background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+        color: white;
+    }
+
+    .notification-status-old {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        color: white;
+    }
+</style>
+
+<div class="notification-page-bg">
+    <div class="container">
+        <!-- Header Section -->
+        <div class="notification-header floating-animation">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="notification-title">
+                        <i class="fas fa-bell me-4"></i>
+                        Thông báo
+                    </h1>
+                    <p class="notification-subtitle">
+                        Quản lý tất cả thông báo trong hệ thống
+                    </p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <div class="d-flex justify-content-end">
+                        <div class="text-white me-3">
+                            <div class="fw-bold">@Model.Count()</div>
+                            <small>Thông báo</small>
+                        </div>
+                        <div class="text-white">
+                            <div class="fw-bold">@Model.Count(t => t.NgayDang >= DateTime.Today.AddDays(-7))</div>
+                            <small>Tuần này</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Button -->
+        @if (User.IsInRole("admin") || User.IsInRole("giaovien"))
+        {
+            <div class="text-center mb-4">
+                <a asp-action="Create" class="notification-btn notification-btn-add pulse-animation">
+                    <i class="fas fa-plus me-2"></i>
+                    Tạo thông báo
+                </a>
+            </div>
+        }
+
+        <!-- Table Section -->
+        <div class="notification-card">
+            @if (Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table notification-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <i class="fas fa-heading me-2"></i>
+                                    Tiêu đề
+                                </th>
+                                <th>
+                                    <i class="fas fa-file-text me-2"></i>
+                                    Nội dung
+                                </th>
+                                <th>
+                                    <i class="fas fa-calendar me-2"></i>
+                                    Ngày đăng
+                                </th>
+                                <th>
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    Trạng thái
+                                </th>
+                                <th>
+                                    <i class="fas fa-cogs me-2"></i>
+                                    Thao tác
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                var isNew = item.NgayDang >= DateTime.Today.AddDays(-3);
+                                var statusClass = isNew ? "notification-status-new" : "notification-status-old";
+                                var statusText = isNew ? "Mới" : "Cũ";
+                                var statusIcon = isNew ? "fas fa-star" : "fas fa-clock";
+
+                                <tr data-id="@item.ID_TB">
+                                    <td>
+                                        <span class="notification-title-cell" title="@item.TieuDe">@item.TieuDe</span>
+                                    </td>
+                                    <td>
+                                        <span class="notification-content" title="@item.NoiDung">@item.NoiDung</span>
+                                    </td>
+                                    <td>
+                                        <span class="notification-date">
+                                            <i class="fas fa-calendar me-1 text-primary"></i>
+                                            @item.NgayDang.ToString("dd/MM/yyyy")
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="notification-status @statusClass">
+                                            <i class="@statusIcon me-1"></i>
+                                            @statusText
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a asp-action="Details" asp-route-id="@item.ID_TB" class="notification-btn notification-btn-details">
+                                            <i class="fas fa-eye me-1"></i>
+                                            Chi tiết
+                                        </a>
+                                        @if (User.IsInRole("admin") || User.IsInRole("giaovien"))
+                                        {
+                                            <a asp-action="Edit" asp-route-id="@item.ID_TB" class="notification-btn notification-btn-edit">
+                                                <i class="fas fa-edit me-1"></i>
+                                                Sửa
+                                            </a>
+                                            <a asp-action="Delete" asp-route-id="@item.ID_TB" class="notification-btn notification-btn-delete">
+                                                <i class="fas fa-trash me-1"></i>
+                                                Xóa
+                                            </a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <i class="fas fa-bell" style="font-size: 5rem; color: #6c757d; margin-bottom: 20px;"></i>
+                    <h3 style="color: #495057; margin-bottom: 15px;">Chưa có thông báo nào</h3>
+                    <p style="font-size: 1.1rem; color: #6c757d; margin-bottom: 25px;">Hãy tạo thông báo đầu tiên để bắt đầu</p>
+                    @if (User.IsInRole("admin") || User.IsInRole("giaovien"))
+                    {
+                        <a asp-action="Create" class="notification-btn notification-btn-add">
+                            <i class="fas fa-plus me-2"></i>
+                            Tạo thông báo đầu tiên
+                        </a>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+    <script>
+        // Enhanced animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Enhanced hover effects for table rows
+            const tableRows = document.querySelectorAll('.notification-table tbody tr');
+            tableRows.forEach((row, index) => {
+                row.style.animationDelay = `${index * 0.1}s`;
+                
+                row.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.03) translateX(8px)';
+                    this.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.2)';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1) translateX(0)';
+                    this.style.boxShadow = 'none';
+                });
+            });
+
+            // Add ripple effect to buttons
+            const buttons = document.querySelectorAll('.notification-btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.classList.add('ripple');
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+        });
+
+        // SignalR connection
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/thongbaohub")
+            .build();
+
+        connection.on("ThongBaoMoi", data => {
+            const isNew = new Date(data.ngayDang) >= new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
+            const statusClass = isNew ? "notification-status-new" : "notification-status-old";
+            const statusText = isNew ? "Mới" : "Cũ";
+            const statusIcon = isNew ? "fas fa-star" : "fas fa-clock";
+            
+            const row = `<tr data-id="${data.id}">
+                <td><span class="notification-title-cell" title="${data.tieuDe}">${data.tieuDe}</span></td>
+                <td><span class="notification-content" title="${data.noiDung}">${data.noiDung}</span></td>
+                <td><span class="notification-date"><i class="fas fa-calendar me-1 text-primary"></i>${data.ngayDang}</span></td>
+                <td><span class="notification-status ${statusClass}"><i class="${statusIcon} me-1"></i>${statusText}</span></td>
+                <td>
+                    <a href="/ThongBao/Details/${data.id}" class="notification-btn notification-btn-details">
+                        <i class="fas fa-eye me-1"></i>Chi tiết
+                    </a>
+                    <a href="/ThongBao/Edit/${data.id}" class="notification-btn notification-btn-edit">
+                        <i class="fas fa-edit me-1"></i>Sửa
+                    </a>
+                    <a href="/ThongBao/Delete/${data.id}" class="notification-btn notification-btn-delete">
+                        <i class="fas fa-trash me-1"></i>Xóa
+                    </a>
+                </td>
+            </tr>`;
+            $("table tbody").prepend(row);
+        });
+
+        connection.on("CapNhatThongBao", data => {
+            const row = $(`table tbody tr`).filter((_, el) =>
+                $(el).find("a[href*='Details']").attr("href") === `/ThongBao/Details/${data.id}`
+            );
+            if (row.length) {
+                const isNew = new Date(data.ngayDang) >= new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
+                const statusClass = isNew ? "notification-status-new" : "notification-status-old";
+                const statusText = isNew ? "Mới" : "Cũ";
+                const statusIcon = isNew ? "fas fa-star" : "fas fa-clock";
+                
+                row.html(`<td><span class="notification-title-cell" title="${data.tieuDe}">${data.tieuDe}</span></td>
+                    <td><span class="notification-content" title="${data.noiDung}">${data.noiDung}</span></td>
+                    <td><span class="notification-date"><i class="fas fa-calendar me-1 text-primary"></i>${data.ngayDang}</span></td>
+                    <td><span class="notification-status ${statusClass}"><i class="${statusIcon} me-1"></i>${statusText}</span></td>
+                    <td>
+                        <a href="/ThongBao/Details/${data.id}" class="notification-btn notification-btn-details">
+                            <i class="fas fa-eye me-1"></i>Chi tiết
+                        </a>
+                        <a href="/ThongBao/Edit/${data.id}" class="notification-btn notification-btn-edit">
+                            <i class="fas fa-edit me-1"></i>Sửa
+                        </a>
+                        <a href="/ThongBao/Delete/${data.id}" class="notification-btn notification-btn-delete">
+                            <i class="fas fa-trash me-1"></i>Xóa
+                        </a>
+                    </td>`);
+            }
+        });
+
+        connection.on("XoaThongBao", data => {
+            $(`table tbody tr`).each(function () {
+                const link = $(this).find("a[href*='Details']").attr("href");
+                if (link === `/ThongBao/Details/${data.id}`) {
+                    $(this).remove();
+                }
+            });
+        });
+
+        connection.start().catch(err => console.error(err.toString()));
+    </script>
+}

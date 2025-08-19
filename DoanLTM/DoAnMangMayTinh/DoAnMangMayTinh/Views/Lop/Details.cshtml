@@ -1,0 +1,15 @@
+﻿@* Views/Lop/Details.cshtml *@
+@model DoAnMangMayTinh.Models.Lop
+@{
+    ViewData["Title"] = "Chi tiết lớp";
+}
+<h2>@ViewData["Title"]</h2>
+<dl class="row">
+    <dt class="col-sm-2">Mã lớp</dt>
+    <dd class="col-sm-10">@Model.MaLop</dd>
+
+    <dt class="col-sm-2">Tên lớp</dt>
+    <dd class="col-sm-10">@Model.TenLop</dd>
+</dl>
+<a asp-action="Edit" asp-route-id="@Model.MaLop" class="btn btn-warning">Sửa</a>
+<a asp-action="Index" class="btn btn-secondary">Quay lại</a>
